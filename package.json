@@ -1,0 +1,22 @@
+{
+  "name": "playwright-ts-orange-hrm",
+  "version": "1.0.0",
+  "description": "TypeScript+Playwright UI tests for a CRM platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nbaldzhiev/playwright-ts-orange-hrm.git"
+  },
+  "author": "nenko.baldzhiev@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nbaldzhiev/playwright-ts-orange-hrm/issues"
+  },
+  "homepage": "https://github.com/nbaldzhiev/playwright-ts-orange-hrm#readme",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
+}
