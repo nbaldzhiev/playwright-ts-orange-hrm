@@ -47,7 +47,7 @@ export class LoginPage {
         await expect(this.loginBtn).not.toBeVisible();
     }
 
-    get assertThat() {
+    get assertThat(): LoginPageAssertions {
         return new LoginPageAssertions(this);
     }
 }

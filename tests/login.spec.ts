@@ -1,17 +1,22 @@
-import { test, expect } from './fixture-test';
+import { test } from './fixture-test';
 
 test.describe('Login', () => {
 
-  test('Should not be able to log in with incorrect credentials', async ({ loginPage }) => {
-    await loginPage.login({ username: `idontexist-${Date.now()}`, password: 'idontexist' });
-    await loginPage.assertThat.invalidCredentialsMsgExists();
-    await loginPage.assertThat.allElementsExist();
+  test('Should not be able to log in with incorrect credentials', async ({ appUI }) => {
+    await appUI.loginPage.login({ username: `idontexist-${Date.now()}`, password: 'idontexist' });
+    await appUI.loginPage.assertThat.invalidCredentialsMsgExists();
+    await appUI.loginPage.assertThat.allElementsExist();
   });
 
-  test('Should not be able to login without credentials', async ({ loginPage }) => {
-    await loginPage.clickLoginBtn();
-    await loginPage.assertThat.numOfRequiredMsgsIsCorrect(2);
-    await loginPage.assertThat.allElementsExist();
+  test('Should not be able to login without credentials', async ({ appUI }) => {
+    await appUI.loginPage.clickLoginBtn();
+    await appUI.loginPage.assertThat.numOfRequiredMsgsIsCorrect(2);
+    await appUI.loginPage.assertThat.allElementsExist();
+  });
+
+  test('Should be able to login with valid credentials', async ({ appUI }) => {
+    await appUI.loginPage.login();
+    await appUI.adminPage.sideMenu.assertThat.allMenuItemsAreVisible();
   });
 
 });

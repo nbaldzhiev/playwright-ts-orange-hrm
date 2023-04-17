@@ -1,15 +1,15 @@
 import { test as base } from '@playwright/test';
-import { LoginPage } from '../utils/pages/login';
+import { AppUI } from '../utils/pages/app';
 
 type MyFixtures = {
-  loginPage: LoginPage;
+  appUI: AppUI;
 };
 
 export const test = base.extend<MyFixtures>({
-  loginPage: async ({ page }, use) => {
-    const loginPage = new LoginPage(page);
+  appUI: async ({ page }, use) => {
+    const appUI = new AppUI(page);
     await page.goto('/');
-    await use(loginPage);
+    await use(appUI);
   },
 });
 export { expect } from '@playwright/test';
