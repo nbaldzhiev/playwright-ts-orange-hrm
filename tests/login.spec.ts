@@ -8,5 +8,10 @@ test.describe('Login', () => {
     await loginPage.assertThat.allElementsExist();
   });
 
+  test('Should not be able to login without credentials', async ({ loginPage }) => {
+    await loginPage.clickLoginBtn();
+    await loginPage.assertThat.numOfRequiredMsgsIsCorrect(2);
+    await loginPage.assertThat.allElementsExist();
+  });
 
 });

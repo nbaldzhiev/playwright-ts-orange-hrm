@@ -1,8 +1,8 @@
 import { Page, Locator, expect } from "@playwright/test";
 
 type LoginCredentials = {
-    username: string,
-    password: string,
+    username?: string,
+    password?: string,
 }
 
 export class LoginPage {
@@ -12,6 +12,7 @@ export class LoginPage {
     readonly loginBtn: Locator;
     readonly forgotPasswordLink: Locator;
     readonly invalidCredentialsMsg: Locator;
+    readonly requiredErrorMsg: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -20,6 +21,7 @@ export class LoginPage {
         this.loginBtn = page.locator('button[type="submit"]');
         this.forgotPasswordLink = page.locator('div.orangehrm-login-forgot > p');
         this.invalidCredentialsMsg = page.locator('p.oxd-alert-content-text');
+        this.requiredErrorMsg = page.locator('span.oxd-input-field-error-message');
     }
 
     async fillUsername(username: string) {
@@ -34,13 +36,15 @@ export class LoginPage {
 
     async clickLoginBtn() {
         await this.loginBtn.click();
-        await expect(this.loginBtn).not.toBeVisible();
     }
 
-    async login({ username, password }: LoginCredentials) {
+    async login(
+        { username = process.env.LOGIN_USERNAME!, password = process.env.LOGIN_PASSWORD! }: LoginCredentials = {}
+    ) {
         await this.fillUsername(username);
         await this.fillPassword(password);
         await this.clickLoginBtn();
+        await expect(this.loginBtn).not.toBeVisible();
     }
 
     get assertThat() {
@@ -68,5 +72,9 @@ class LoginPageAssertions {
     async invalidCredentialsMsgExists() {
         const msg: string = 'Invalid credentials';
         await expect(this.page.invalidCredentialsMsg).toHaveText(msg);
+    }
+
+    async numOfRequiredMsgsIsCorrect(expectedNumber: number) {
+        await expect(this.page.requiredErrorMsg).toHaveCount(expectedNumber);
     }
 }
