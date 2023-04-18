@@ -5,12 +5,14 @@ test.describe('PIM Page', () => {
   let createdEmployeeIds: number[] = [];
 
   test.beforeEach(async ({ authAppUI }) => {
+    // Open the PIM page before each test
     await authAppUI.adminPage.sideMenu.openPIMPage();
   });
 
   test.afterAll(async ({ authAppUI }) => {
-    // Delete all employees created. This operation is much better performed via the API, but this demo app
-    // doesn't have any documentation about authorization/usage of the API, so it doesn't seem properly exposed
+    // Delete all employees created after all tests have finished. This operation is much better performed via the 
+    // API, but this demo app doesn't have any documentation about authorization/usage of the API, so it doesn't seem 
+    // properly exposed
     await authAppUI.adminPage.sideMenu.openPIMPage();
     for (const id of createdEmployeeIds) {
       await authAppUI.pimPage.filterEmployeesByEmployeeId(id);

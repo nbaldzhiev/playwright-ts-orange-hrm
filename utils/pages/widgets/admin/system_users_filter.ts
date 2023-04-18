@@ -1,5 +1,7 @@
+/** This module contains an abstraction of the System Users filter widget present on the Admin page */
 import { Page, Locator } from "@playwright/test";
 
+/** This class defines an abstraction of the system users filter widget present on the Admin page */
 export class SystemUsersFilter {
     readonly parentSelector: string = 'div.oxd-table-filter';
     readonly usernameInput: Locator;
