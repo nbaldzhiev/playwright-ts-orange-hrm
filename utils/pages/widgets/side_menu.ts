@@ -22,14 +22,14 @@ export class SideMenu {
 
     async openAdminView() {
         await this.adminLink.click();
-        await expect(this.page).toHaveURL('/.*\/admin\/.*/');
-        await expect(this.adminLink).toHaveClass('active');
+        await expect(this.page).toHaveURL(/.*admin\/viewSystemUsers.*/);
+        await expect(this.adminLink).toHaveClass(/active/);
     }
 
     async openPIMView() {
         await this.pimLink.click();
-        await expect(this.page).toHaveURL('/.*\/pim\/viewEmployeeList/');
-        await expect(this.pimLink).toHaveClass('active');
+        await expect(this.page).toHaveURL(/.*\/pim\/viewEmployeeList/);
+        await expect(this.pimLink).toHaveClass(/active/);
     }
 
     async filterBySearchInput(inputText: string) {
