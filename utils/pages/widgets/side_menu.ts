@@ -20,13 +20,13 @@ export class SideMenu {
         this.pimLink = page.locator(`${PARENT} a[href*="viewPimModule"]`);
     }
 
-    async openAdminView() {
+    async openAdminPage() {
         await this.adminLink.click();
         await expect(this.page).toHaveURL(/.*admin\/viewSystemUsers.*/);
         await expect(this.adminLink).toHaveClass(/active/);
     }
 
-    async openPIMView() {
+    async openPIMPage() {
         await this.pimLink.click();
         await expect(this.page).toHaveURL(/.*\/pim\/viewEmployeeList/);
         await expect(this.pimLink).toHaveClass(/active/);

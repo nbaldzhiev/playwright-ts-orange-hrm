@@ -8,12 +8,18 @@ export class PIMPage extends BasePage {
     readonly page: Page;
     readonly recordsTable: RecordsTable;
     readonly addEmployeeForm: AddEmployeeForm;
+    readonly employeeInfoIdInput: Locator;
+    readonly employeeInfoSearchBtn: Locator;
+    readonly loader: Locator;
 
     constructor(page: Page) {
         super(page);
         this.page = page;
         this.recordsTable = new RecordsTable(this.page);
         this.addEmployeeForm = new AddEmployeeForm(this.page);
+        this.loader = page.locator('.oxd-loading-spinner-container');
+        this.employeeInfoIdInput = page.locator('.oxd-grid-4 > .oxd-grid-item:nth-child(2) input');
+        this.employeeInfoSearchBtn = page.locator('.oxd-form-actions button[type="submit"]');
     }
 
     async clickOnAddEmployeeBtn() {
@@ -22,8 +28,10 @@ export class PIMPage extends BasePage {
     }
 
     async filterEmployeesByEmployeeId(employeeId: number) {
-        await this.page.locator('.oxd-grid-4 > .oxd-grid-item:nth-child(2) input').fill(employeeId.toString());
-        await this.page.locator('.oxd-form-actions button[type="submit"]').click();
+        await this.employeeInfoIdInput.fill(employeeId.toString());
+        await this.employeeInfoSearchBtn.click();
+        await expect(this.loader).toBeVisible();
+        await expect(this.loader).not.toBeVisible();
     }
 
     get assertThat(): PIMPageAssertions {

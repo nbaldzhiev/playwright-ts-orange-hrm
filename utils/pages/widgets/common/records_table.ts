@@ -5,11 +5,13 @@ class RowItem {
     readonly employeeId: Locator;
     readonly firstMiddleNames: Locator;
     readonly lastName: Locator;
+    readonly deleteBtn: Locator;
 
     constructor(row: Locator) {
         this.employeeId = row.locator(`${this.parentSelector} > .oxd-table-cell:nth-child(2)`);
         this.firstMiddleNames = row.locator(`${this.parentSelector} > .oxd-table-cell:nth-child(3)`);
         this.lastName = row.locator(`${this.parentSelector} > .oxd-table-cell:nth-child(4)`);
+        this.deleteBtn = row.locator(`${this.parentSelector} > .oxd-table-cell:last-child button i.bi-trash`);
     }
 }
 
@@ -29,6 +31,12 @@ export class RecordsTable {
 
     getRowByIndex(rowIndex: number): RowItem {
         return new RowItem(this.tableRow.nth(rowIndex - 1))
+    }
+
+    async deleteRowByIndex(rowIndex: number) {
+        await this.getRowByIndex(rowIndex).deleteBtn.click();
+        await this.page.locator('[role="dialog"] button.oxd-button--label-danger').click();
+        await expect(this.page.locator('[role="dialog"] button.oxd-button--label-danger')).not.toBeVisible();
     }
 
     get assertThat(): RecordsTableAssertions {
