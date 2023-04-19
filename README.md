@@ -4,4 +4,17 @@ A repository containing a Playwright (TypeScript) project with UI tests for a de
 
 > **_NOTE:_** Running the tests in parallel often results in failures because the demo app returns 503 errors when being accessed multiple times simultaneously. Therefore, 1 worker (default for CI) works best. That's something I didn't know when I was picking on a demo app to automage against. Therefore, the results are not consistent and the app itself isn't stable, but that is okay considering the goals of this project.
 
-TODO: complete README after adding a pre-commit hook, new github actions workflows and eventually results sent to a S3 bucket with enabled static hosting.
+## Installation
+
+Make sure that NodeJS is installed and run:
+
+    $ npm i
+
+within the root folder of the repository.
+
+### Pre-commit hook
+
+Upon installing the dev dependencies, a pre-commit hook is installed as well. `lint-staged`, `husky`, `eslint`, and `prettier` are utilised to run 
+static code checks upon making a `git commit`.
+
+TODO: complete README
