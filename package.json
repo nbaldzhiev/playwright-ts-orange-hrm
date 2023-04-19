@@ -33,7 +33,7 @@
         "*.ts": "npx tsc --noEmit",
         "*.{js,jsx,ts,tsx}": [
             "npx eslint",
-            "npx prettier --check"
+            "npx prettier --write"
         ]
     }
 }
