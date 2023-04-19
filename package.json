@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "TypeScript+Playwright UI tests for a CRM platform",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky install"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nbaldzhiev/playwright-ts-orange-hrm.git"
@@ -16,6 +18,16 @@
   "homepage": "https://github.com/nbaldzhiev/playwright-ts-orange-hrm#readme",
   "devDependencies": {
     "@playwright/test": "^1.32.3",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.7",
     "typescript": "^5.0.4"
+  },
+  "lint-staged": {
+    "*.ts": "npx tsc --noEmit",
+    "*.{js,jsx,ts,tsx}": "npx eslint",
+    "*.{js,jsx,ts,tsx,html,css}": "npx prettier --check"
   }
 }
