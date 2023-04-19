@@ -15,16 +15,12 @@ test.describe('PIM Page', () => {
     // properly exposed
     await authAppUI.adminPage.sideMenu.openPIMPage();
     for (const id of createdEmployeeIds) {
-      await authAppUI.pimPage.filterEmployeesByEmployeeId(id);
-      await authAppUI.pimPage.recordsTable.assertThat.numberOfRowsIsCorrect(1);
-      await authAppUI.pimPage.recordsTable.deleteRowByIndex(1);
-      await authAppUI.pimPage.filterEmployeesByEmployeeId(id);
-      await authAppUI.pimPage.recordsTable.assertThat.numberOfRowsIsCorrect(0);
+      await authAppUI.pimPage.deleteEmployeeAndAssertDeletion(id);
     }
   })
 
   test('Should be able to add a new employee', async ({ authAppUI }) => {
-    const employeeId = parseInt(Date.now().toString().substring(1, 10));
+    const employeeId: number = parseInt(Date.now().toString().substring(1, 10));
 
     await authAppUI.pimPage.clickOnAddEmployeeBtn();
     await authAppUI.pimPage.addEmployeeForm.addNewEmployee(

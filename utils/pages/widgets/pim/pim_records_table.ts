@@ -1,4 +1,4 @@
-/** This module contains an abstraction of a records table which is present in multiple places of the test app */
+/** This module contains an abstraction of the records table on the PIM page */
 import { Page, Locator, expect } from "@playwright/test";
 
 /** This class defines an abstraction of a single row item in the records table */
@@ -17,8 +17,8 @@ class RowItem {
     }
 }
 
-/** This class defines an abstraction of a records table in the test app */
-export class RecordsTable {
+/** This class defines an abstraction of the records table on the PIM page */
+export class PimRecordsTable {
     readonly page: Page;
     readonly parentSelector: string = 'div.orangehrm-paper-container';
     readonly addBtn: Locator;
@@ -62,9 +62,9 @@ export class RecordsTable {
 
 /** This class defines assertions within a records table */
 class RecordsTableAssertions {
-    readonly table: RecordsTable;
+    readonly table: PimRecordsTable;
 
-    constructor(table: RecordsTable) {
+    constructor(table: PimRecordsTable) {
         this.table = table;
     }
 

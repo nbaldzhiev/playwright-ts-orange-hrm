@@ -6,6 +6,8 @@ type UserData = {
     employeeName: string,
     status: string,
     username: string,
+    password: string,
+    confirmPassword: string,
 }
 
 /** This module defines an abstraction of the Add User form present on the admin page */
@@ -18,6 +20,8 @@ export class AddUserForm {
     readonly usernameInput: Locator;
     readonly passwordInput: Locator;
     readonly confirmPasswordInput: Locator;
+    readonly popupListOption: Locator;
+    readonly requiredErrorMsg: Locator;
     readonly saveBtn: Locator;
 
     constructor(page: Page) {
@@ -27,6 +31,12 @@ export class AddUserForm {
         this.employeeNameInput = page.locator(`${this.parentSelector} input[placeholder*="for hints"]`);
         this.statusDdown = page.locator(`${ddown}:nth-child(3) .oxd-select-text-input`);
         this.usernameInput = page.locator(`${this.parentSelector} input.oxd-input:not([type="password"])`);
+        this.passwordInput = page.locator(`${this.parentSelector} div.user-password-cell input`);
+        this.confirmPasswordInput = page.locator(
+            `${this.parentSelector} .user-password-row div.oxd-grid-item:not([class*="user-password-cell"]) input`
+        );
+        this.popupListOption = page.locator('[role="listbox"] > [role="option"] span');
+        this.requiredErrorMsg = page.locator('span.oxd-input-field-error-message');
         this.saveBtn = page.locator(`${this.parentSelector} button[type="submit"]`);
     }
 
@@ -36,15 +46,18 @@ export class AddUserForm {
      */
     async selectUserRole(userRole: string) {
         await this.userRoleDdown.click();
-        await this.page.locator('[role="listbox"] > [role="option"] span').getByText(userRole).click();
+        await this.popupListOption.getByText(userRole).click();
+        await expect(this.userRoleDdown).toHaveText(userRole);
     }
 
     /**
-     * Fills in the employee name input
-     * @param {string} name The name to fill in
+     * Selects an employee by typing their name in the Employee Name input and selecting from the dropdown
+     * @param {string} name The name to select
      */
-    async fillEmployeeName(name: string) {
+    async selectEmployeeName(name: string) {
         await this.employeeNameInput.fill(name);
+        await this.popupListOption.getByText(name).click();
+        await expect(this.employeeNameInput).toHaveValue(name);
     }
 
     /**
@@ -53,7 +66,8 @@ export class AddUserForm {
      */
     async selectStatus(status: string) {
         await this.statusDdown.click();
-        await this.page.locator('[role="listbox"] > [role="option"] span').getByText(status).click();
+        await this.popupListOption.getByText(status).click();
+        await expect(this.statusDdown).toHaveText(status);
     }
 
     /**
@@ -62,12 +76,31 @@ export class AddUserForm {
      */
     async fillUsername(username: string) {
         await this.usernameInput.fill(username);
+        await expect(this.usernameInput).toHaveValue(username);
+    }
+
+    /**
+     * Fills in the password input
+     * @param {string} password The password to fill in
+     */
+    async fillPassword(password: string) {
+        await this.passwordInput.fill(password);
+        await expect(this.usernameInput).not.toBeEmpty();
+    }
+
+    /**
+     * Fills in the confirm password input
+     * @param {string} password The password to fill in
+     */
+    async fillConfirmPassword(password: string) {
+        await this.confirmPasswordInput.fill(password);
+        await expect(this.confirmPasswordInput).not.toBeEmpty();
     }
 
     /** Clicks on the Save button */
     async save() {
         await this.saveBtn.click();
-        await expect(this.saveBtn).not.toBeVisible();
+        await expect(this.saveBtn).toBeVisible();
     }
 
     /**
@@ -77,13 +110,19 @@ export class AddUserForm {
      * @param {string} UserData.employeeName The name of the employee to fill in
      * @param {string} UserData.status The status to select
      * @param {string} UserData.username The username to fill in
+     * @param {string} UserData.password The password to fill in
+     * @param {string} UserData.confirmPassword The confirm  username to fill in
      */
-    async addNewUser({ userRole, employeeName, status, username }: UserData) {
+    async addNewUser({ userRole, employeeName, status, username, password, confirmPassword }: UserData) {
         await this.selectUserRole(userRole);
-        await this.fillEmployeeName(employeeName);
+        await this.selectEmployeeName(employeeName);
         await this.selectStatus(status);
         await this.fillUsername(username);
-    
+        await this.fillPassword(password);
+        await this.fillConfirmPassword(confirmPassword);
+        await expect(this.requiredErrorMsg).not.toBeVisible();
+        // For some reason, a small wait is needed here because the button otherwise just doesn't get clicked
+        await this.page.waitForTimeout(800);
         await this.save();
     }
 }

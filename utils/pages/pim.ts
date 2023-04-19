@@ -1,6 +1,6 @@
 /** This module contains a page object model for the PIM page */
 import { BasePage } from "./base_page";
-import { RecordsTable } from "./widgets/common/records_table";
+import { PimRecordsTable } from "./widgets/pim/pim_records_table";
 import { AddEmployeeForm } from "./widgets/pim/add_employee_form";
 import { Page, Locator, expect } from "@playwright/test";
 
@@ -8,7 +8,7 @@ import { Page, Locator, expect } from "@playwright/test";
 /** This class defines an abstraction of the PIM page */
 export class PIMPage extends BasePage {
     readonly page: Page;
-    readonly recordsTable: RecordsTable;
+    readonly recordsTable: PimRecordsTable;
     readonly addEmployeeForm: AddEmployeeForm;
     readonly employeeInfoIdInput: Locator;
     readonly employeeInfoSearchBtn: Locator;
@@ -17,7 +17,7 @@ export class PIMPage extends BasePage {
     constructor(page: Page) {
         super(page);
         this.page = page;
-        this.recordsTable = new RecordsTable(this.page);
+        this.recordsTable = new PimRecordsTable(this.page);
         this.addEmployeeForm = new AddEmployeeForm(this.page);
         this.loader = page.locator('.oxd-loading-spinner-container');
         this.employeeInfoIdInput = page.locator('.oxd-grid-4 > .oxd-grid-item:nth-child(2) input');
@@ -41,6 +41,18 @@ export class PIMPage extends BasePage {
         await this.employeeInfoSearchBtn.click();
         await expect(this.loader).toBeVisible();
         await expect(this.loader).not.toBeVisible();
+    }
+
+    /**
+     * Deletes a given employee from the records table and asserts that the record has been deleted
+     * @param {number} employeeId The ID of the employee to be deleted
+     */
+    async deleteEmployeeAndAssertDeletion(employeeId: number) {
+      await this.filterEmployeesByEmployeeId(employeeId);
+      await this.recordsTable.assertThat.numberOfRowsIsCorrect(1);
+      await this.recordsTable.deleteRowByIndex(1);
+      await this.filterEmployeesByEmployeeId(employeeId);
+      await this.recordsTable.assertThat.numberOfRowsIsCorrect(0);
     }
 
     /**

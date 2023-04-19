@@ -1,19 +1,19 @@
 import { BasePage } from "./base_page";
 import { SystemUsersFilter } from "./widgets/admin/system_users_filter";
-import { RecordsTable } from "./widgets/common/records_table";
+import { AdminRecordsTable } from "./widgets/admin/admin_records_table";
 import { AddUserForm } from "./widgets/admin/add_user_form";
 import { Page, Locator, expect } from "@playwright/test";
 
 
 export class AdminPage extends BasePage {
     readonly systemUsersFilter: SystemUsersFilter;
-    readonly recordsTable: RecordsTable;
+    readonly recordsTable: AdminRecordsTable;
     readonly addUserForm: AddUserForm;
 
     constructor(page: Page) {
         super(page);
         this.systemUsersFilter = new SystemUsersFilter(this.page);
-        this.recordsTable = new RecordsTable(this.page);
+        this.recordsTable = new AdminRecordsTable(this.page);
         this.addUserForm = new AddUserForm(this.page);
     }
 
