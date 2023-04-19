@@ -29,12 +29,16 @@ test.describe('Admin Page', () => {
     await authAppUI.adminPage.sideMenu.openAdminPage();
   });
 
-  test.afterAll(async ({ authAppUI }) => {
+  test.afterAll(async ({ browser }) => {
     // Delete all employees created after all tests have finished. This operation is much better performed via the 
     // API, but this demo app doesn't have any documentation about authorization/usage of the API, so it doesn't seem 
     // properly exposed
-    await authAppUI.adminPage.sideMenu.openPIMPage();
-    await authAppUI.pimPage.deleteEmployeeAndAssertDeletion(empId);
+    const page: Page = await browser.newPage();
+    const appUI: AppUI = new AppUI(page);
+    await page.goto('/');
+    await appUI.loginPage.login();
+    await appUI.adminPage.sideMenu.openPIMPage();
+    await appUI.pimPage.deleteEmployeeAndAssertDeletion(empId);
   })
 
   test('Should be able to add a new user', async ({ authAppUI }) => {

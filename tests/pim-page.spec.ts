@@ -1,4 +1,6 @@
 import { expect, test } from './fixture-test';
+import { Page } from '@playwright/test';
+import { AppUI } from '../utils/pages/app';
 
 test.describe('PIM Page', () => {
 
@@ -11,13 +13,17 @@ test.describe('PIM Page', () => {
     await authAppUI.adminPage.sideMenu.openPIMPage();
   });
 
-  test.afterAll(async ({ authAppUI }) => {
+  test.afterAll(async ({ browser }) => {
     // Delete all employees created after all tests have finished. This operation is much better performed via the 
     // API, but this demo app doesn't have any documentation about authorization/usage of the API, so it doesn't seem 
     // properly exposed
-    await authAppUI.adminPage.sideMenu.openPIMPage();
+    const page: Page = await browser.newPage();
+    const appUI: AppUI = new AppUI(page);
+    await page.goto('/');
+    await appUI.loginPage.login();
+    await appUI.adminPage.sideMenu.openPIMPage();
     for (const id of createdEmployeeIds) {
-      await authAppUI.pimPage.deleteEmployeeAndAssertDeletion(id);
+      await appUI.pimPage.deleteEmployeeAndAssertDeletion(id);
     }
   })
 

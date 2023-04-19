@@ -1,7 +1,7 @@
-import { BasePage } from "./base_page";
-import { SystemUsersFilter } from "./widgets/admin/system_users_filter";
-import { AdminRecordsTable } from "./widgets/admin/admin_records_table";
-import { AddUserForm } from "./widgets/admin/add_user_form";
+import { BasePage } from "./base-page";
+import { SystemUsersFilter } from "./widgets/admin/system-users-filter";
+import { AdminRecordsTable } from "./widgets/admin/admin-records-table";
+import { AddUserForm } from "./widgets/admin/add-user-form";
 import { Page, Locator, expect } from "@playwright/test";
 
 

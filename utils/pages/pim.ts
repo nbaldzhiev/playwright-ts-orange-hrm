@@ -1,7 +1,7 @@
 /** This module contains a page object model for the PIM page */
-import { BasePage } from "./base_page";
-import { PimRecordsTable } from "./widgets/pim/pim_records_table";
-import { AddEmployeeForm } from "./widgets/pim/add_employee_form";
+import { BasePage } from "./base-page";
+import { PimRecordsTable } from "./widgets/pim/pim-records-table";
+import { AddEmployeeForm } from "./widgets/pim/add-employee-form";
 import { Page, Locator, expect } from "@playwright/test";
 
 
