@@ -1,5 +1,5 @@
 /** This module contains an abstraction of the System Users filter widget present on the Admin page */
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator, expect } from '@playwright/test';
 
 /** This class defines an abstraction of the system users filter widget present on the Admin page */
 export class SystemUsersFilter {
@@ -29,6 +29,6 @@ export class SystemUsersFilter {
         await expect(this.usernameInput).toHaveValue(username);
         await this.searchBtn.click();
         await expect(this.loader).toBeVisible();
-        await expect(this.loader).not.toBeVisible();
+        await expect(this.loader).toBeHidden();
     }
 }

@@ -1,8 +1,8 @@
 /** This module contains an abstraction of the UI part of the test app */
-import { AdminPage } from "./admin";
-import { PIMPage } from "./pim";
-import { LoginPage } from "./login";
-import { Page } from "@playwright/test";
+import { AdminPage } from './admin';
+import { PIMPage } from './pim';
+import { LoginPage } from './login';
+import { Page } from '@playwright/test';
 
 /** This class defines an abstraction of the UI of the test app */
 export class AppUI {

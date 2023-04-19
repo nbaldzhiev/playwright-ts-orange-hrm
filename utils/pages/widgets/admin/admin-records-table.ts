@@ -1,5 +1,5 @@
 /** This module contains an abstraction of a records table which is present in multiple places of the test app */
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator, expect } from '@playwright/test';
 
 /** This class defines an abstraction of a single row item in the records table */
 class RowItem {
@@ -40,7 +40,7 @@ export class AdminRecordsTable {
      * @returns {RowItem}
      */
     getRowByIndex(rowIndex: number): RowItem {
-        return new RowItem(this.tableRow.nth(rowIndex - 1))
+        return new RowItem(this.tableRow.nth(rowIndex - 1));
     }
 
     /**
@@ -53,7 +53,7 @@ export class AdminRecordsTable {
 }
 
 /** This class defines assertions within a records table */
-class RecordsTableAssertions  {
+class RecordsTableAssertions {
     readonly table: AdminRecordsTable;
 
     constructor(table: AdminRecordsTable) {
@@ -75,9 +75,15 @@ class RecordsTableAssertions  {
      * @param {string} obj.lastName The expected last name of the employee
      * @param {number} obj.employeeIndex 1-based index identifying the employee row in the table, 1 being the top one
      */
-    async employeeNameIsCorrect(
-        { firstName, lastName, employeeIndex = 1 }: { firstName: string, lastName: string, employeeIndex?: number }
-    ) {
+    async employeeNameIsCorrect({
+        firstName,
+        lastName,
+        employeeIndex = 1,
+    }: {
+        firstName: string;
+        lastName: string;
+        employeeIndex?: number;
+    }) {
         const expectedName = `${firstName} ${lastName}`;
         const row = this.table.getRowByIndex(employeeIndex);
         await expect(row.employeeName).toHaveText(expectedName);
@@ -89,7 +95,7 @@ class RecordsTableAssertions  {
      * @param {string} obj.userRole The expected user role of the employee
      * @param {number} obj.employeeIndex 1-based index identifying the employee row in the table, 1 being the top one
      */
-    async employeeUserRoleIsCorrect({ userRole, employeeIndex = 1 }: { userRole: string, employeeIndex?: number }) {
+    async employeeUserRoleIsCorrect({ userRole, employeeIndex = 1 }: { userRole: string; employeeIndex?: number }) {
         const row = this.table.getRowByIndex(employeeIndex);
         await expect(row.userRole).toHaveText(userRole);
     }
@@ -100,7 +106,7 @@ class RecordsTableAssertions  {
      * @param {string} obj.username The expected username of the employee
      * @param {number} obj.employeeIndex 1-based index identifying the employee row in the table, 1 being the top one
      */
-    async employeeUsernameIsCorrect({ username, employeeIndex = 1 }: { username: string, employeeIndex?: number }) {
+    async employeeUsernameIsCorrect({ username, employeeIndex = 1 }: { username: string; employeeIndex?: number }) {
         const row = this.table.getRowByIndex(employeeIndex);
         await expect(row.username).toHaveText(username);
     }
@@ -111,9 +117,8 @@ class RecordsTableAssertions  {
      * @param {string} obj.status The expected status of the employee
      * @param {number} obj.employeeIndex 1-based index identifying the employee row in the table, 1 being the top one
      */
-    async employeeStatusIsCorrect({ status, employeeIndex = 1 }: { status: string, employeeIndex?: number }) {
+    async employeeStatusIsCorrect({ status, employeeIndex = 1 }: { status: string; employeeIndex?: number }) {
         const row = this.table.getRowByIndex(employeeIndex);
         await expect(row.status).toHaveText(status);
     }
-
 }

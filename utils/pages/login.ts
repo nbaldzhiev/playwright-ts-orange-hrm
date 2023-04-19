@@ -1,10 +1,10 @@
 /** This module contains a page object model for the Login page */
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator, expect } from '@playwright/test';
 
 type LoginCredentials = {
-    username?: string,
-    password?: string,
-}
+    username?: string;
+    password?: string;
+};
 
 /** This class defines an abstraction of the Login page */
 export class LoginPage {
@@ -55,13 +55,14 @@ export class LoginPage {
      * @param {string} LoginCredentials.username The username to log in as
      * @param {string} LoginCredentials.password The password to log in with
      */
-    async login(
-        { username = process.env.LOGIN_USERNAME!, password = process.env.LOGIN_PASSWORD! }: LoginCredentials = {}
-    ) {
+    async login({
+        username = process.env.LOGIN_USERNAME!,
+        password = process.env.LOGIN_PASSWORD!,
+    }: LoginCredentials = {}) {
         await this.fillUsername(username);
         await this.fillPassword(password);
         await this.clickLoginBtn();
-        await expect(this.loginBtn).not.toBeVisible();
+        await expect(this.loginBtn).toBeHidden();
     }
 
     /**
@@ -83,18 +84,19 @@ class LoginPageAssertions {
 
     /** Asserts that all elements on the Login page exist and are visible */
     async allElementsExist() {
-        for (
-            const loc
-            of 
-            [this.page.usernameInput, this.page.passwordInput, this.page.loginBtn, this.page.forgotPasswordLink]
-        ) {
+        for (const loc of [
+            this.page.usernameInput,
+            this.page.passwordInput,
+            this.page.loginBtn,
+            this.page.forgotPasswordLink,
+        ]) {
             await expect(loc).toBeVisible();
         }
     }
 
     /** Asserts that the invalid credentials error message exists */
     async invalidCredentialsMsgExists() {
-        const msg: string = 'Invalid credentials';
+        const msg = 'Invalid credentials';
         await expect(this.page.invalidCredentialsMsg).toHaveText(msg);
     }
 

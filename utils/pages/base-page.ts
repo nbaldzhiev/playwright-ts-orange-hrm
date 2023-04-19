@@ -1,6 +1,6 @@
 /** This module contains a page object model for a base page of the test app */
-import { Page, Locator, expect } from "@playwright/test";
-import { SideMenu } from "./widgets/side-menu";
+import { Page, Locator } from '@playwright/test';
+import { SideMenu } from './widgets/side-menu';
 
 /** This class defines an abstraction of a base page of the test app to be inherited by other pages */
 export class BasePage {

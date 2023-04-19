@@ -1,7 +1,7 @@
 /** This module contains an abstraction of the left side menu when logged in the test app */
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator, expect } from '@playwright/test';
 
-const PARENT: string = 'aside.oxd-sidepanel';
+const PARENT = 'aside.oxd-sidepanel';
 
 /** This class defines an abstraction of the left side menu when logged in the test app */
 export class SideMenu {
@@ -17,7 +17,7 @@ export class SideMenu {
         this.page = page;
         this.logoLink = page.locator(`${PARENT} a.oxd-brand`);
         this.searchInput = page.locator(`${PARENT} input.oxd-input`);
-        this.linkList = page.locator(`${PARENT} ul.oxd-main-menu > li`)
+        this.linkList = page.locator(`${PARENT} ul.oxd-main-menu > li`);
         this.adminLink = page.locator(`${PARENT} a[href*="admin"]`);
         this.pimLink = page.locator(`${PARENT} a[href*="viewPimModule"]`);
     }
@@ -65,11 +65,13 @@ class SideMenuAssertions {
     /** Asserts that all items in the menu are present and visible */
     async allMenuItemsAreVisible() {
         const items: Locator[] = [
-            this.widget.logoLink, this.widget.searchInput, this.widget.adminLink, this.widget.pimLink
+            this.widget.logoLink,
+            this.widget.searchInput,
+            this.widget.adminLink,
+            this.widget.pimLink,
         ];
         for (const item of items) {
             await expect(item).toBeVisible();
         }
     }
-
 }

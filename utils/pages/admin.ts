@@ -1,9 +1,8 @@
-import { BasePage } from "./base-page";
-import { SystemUsersFilter } from "./widgets/admin/system-users-filter";
-import { AdminRecordsTable } from "./widgets/admin/admin-records-table";
-import { AddUserForm } from "./widgets/admin/add-user-form";
-import { Page, Locator, expect } from "@playwright/test";
-
+import { BasePage } from './base-page';
+import { SystemUsersFilter } from './widgets/admin/system-users-filter';
+import { AdminRecordsTable } from './widgets/admin/admin-records-table';
+import { AddUserForm } from './widgets/admin/add-user-form';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class AdminPage extends BasePage {
     readonly systemUsersFilter: SystemUsersFilter;
@@ -19,7 +18,7 @@ export class AdminPage extends BasePage {
 
     async clickOnAddUserBtn() {
         await this.recordsTable.addBtn.click();
-        await expect(this.recordsTable.addBtn).not.toBeVisible();
+        await expect(this.recordsTable.addBtn).toBeHidden();
     }
 
     get assertThat(): AdminPageAssertions {
@@ -37,7 +36,11 @@ class AdminPageAssertions {
     async systemUsersFilterIsLoaded() {
         const filter: SystemUsersFilter = this.page.systemUsersFilter;
         const items: Locator[] = [
-            filter.usernameInput, filter.userRoleDdown, filter.employeeNameInput, filter.statusDdown, filter.searchBtn
+            filter.usernameInput,
+            filter.userRoleDdown,
+            filter.employeeNameInput,
+            filter.statusDdown,
+            filter.searchBtn,
         ];
         for (const item of items) {
             await expect(item).toBeVisible();

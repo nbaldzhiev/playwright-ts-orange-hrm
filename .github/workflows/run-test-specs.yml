@@ -2,32 +2,32 @@ name: Run test specs
 run-name: Run test specs - ${{ inputs.specs }}
 
 on:
-  workflow_dispatch:
-    inputs:
-      specs:
-        # Single spec example: login-page.spec.ts
-        # Multiple specs example: login-page.spec.ts pim-page.spec.ts
-        required: true
-        type: string
-        description: Which specs to run, e.g. login-page.spec.ts pim-page.spec.ts
+    workflow_dispatch:
+        inputs:
+            specs:
+                # Single spec example: login-page.spec.ts
+                # Multiple specs example: login-page.spec.ts pim-page.spec.ts
+                required: true
+                type: string
+                description: Which specs to run, e.g. login-page.spec.ts pim-page.spec.ts
 
 jobs:
-  test:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-    - run: npm ci
-    - name: Install Playwright Chrome Browser
-      run: npx playwright install chrome
-    - name: Run Playwright tests
-      run: LOGIN_USERNAME=${{ secrets.LOGIN_USERNAME }} LOGIN_PASSWORD=${{ secrets.LOGIN_PASSWORD }} npx playwright test ${{ inputs.specs }}
-    - uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+    test:
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+            - run: npm ci
+            - name: Install Playwright Chrome Browser
+              run: npx playwright install chrome
+            - name: Run Playwright tests
+              run: LOGIN_USERNAME=${{ secrets.LOGIN_USERNAME }} LOGIN_PASSWORD=${{ secrets.LOGIN_PASSWORD }} npx playwright test ${{ inputs.specs }}
+            - uses: actions/upload-artifact@v3
+              if: always()
+              with:
+                  name: playwright-report
+                  path: playwright-report/
+                  retention-days: 30

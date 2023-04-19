@@ -1,14 +1,14 @@
 /** This module contains an abstraction of the Add User form present on the admin page */
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator, expect } from '@playwright/test';
 
 type UserData = {
-    userRole: string,
-    employeeName: string,
-    status: string,
-    username: string,
-    password: string,
-    confirmPassword: string,
-}
+    userRole: string;
+    employeeName: string;
+    status: string;
+    username: string;
+    password: string;
+    confirmPassword: string;
+};
 
 /** This module defines an abstraction of the Add User form present on the admin page */
 export class AddUserForm {
@@ -33,7 +33,7 @@ export class AddUserForm {
         this.usernameInput = page.locator(`${this.parentSelector} input.oxd-input:not([type="password"])`);
         this.passwordInput = page.locator(`${this.parentSelector} div.user-password-cell input`);
         this.confirmPasswordInput = page.locator(
-            `${this.parentSelector} .user-password-row div.oxd-grid-item:not([class*="user-password-cell"]) input`
+            `${this.parentSelector} .user-password-row div.oxd-grid-item:not([class*="user-password-cell"]) input`,
         );
         this.popupListOption = page.locator('[role="listbox"] > [role="option"] span');
         this.requiredErrorMsg = page.locator('span.oxd-input-field-error-message');
@@ -120,7 +120,7 @@ export class AddUserForm {
         await this.fillUsername(username);
         await this.fillPassword(password);
         await this.fillConfirmPassword(confirmPassword);
-        await expect(this.requiredErrorMsg).not.toBeVisible();
+        await expect(this.requiredErrorMsg).toBeHidden();
         // For some reason, a small wait is needed here because the button otherwise just doesn't get clicked
         await this.page.waitForTimeout(800);
         await this.save();

@@ -1,5 +1,5 @@
 /** This module contains an abstraction of the records table on the PIM page */
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator, expect } from '@playwright/test';
 
 /** This class defines an abstraction of a single row item in the records table */
 class RowItem {
@@ -38,7 +38,7 @@ export class PimRecordsTable {
      * @returns {RowItem}
      */
     getRowByIndex(rowIndex: number): RowItem {
-        return new RowItem(this.tableRow.nth(rowIndex - 1))
+        return new RowItem(this.tableRow.nth(rowIndex - 1));
     }
 
     /**
@@ -48,7 +48,7 @@ export class PimRecordsTable {
     async deleteRowByIndex(rowIndex: number) {
         await this.getRowByIndex(rowIndex).deleteBtn.click();
         await this.page.locator('[role="dialog"] button.oxd-button--label-danger').click();
-        await expect(this.page.locator('[role="dialog"] button.oxd-button--label-danger')).not.toBeVisible();
+        await expect(this.page.locator('[role="dialog"] button.oxd-button--label-danger')).toBeHidden();
     }
 
     /**
@@ -82,7 +82,7 @@ class RecordsTableAssertions {
      * @param {string} obj.names The expected first and middle names of the employee as a string
      * @param {number} obj.employeeIndex 1-based index identifying the employee row in the table, 1 being the top one
      */
-    async employeeFirstMiddleNamesAreCorrect({ names, employeeIndex = 1 }: { names: string, employeeIndex?: number }) {
+    async employeeFirstMiddleNamesAreCorrect({ names, employeeIndex = 1 }: { names: string; employeeIndex?: number }) {
         const row = this.table.getRowByIndex(employeeIndex);
         await expect(row.firstMiddleNames).toHaveText(names);
     }
@@ -93,7 +93,7 @@ class RecordsTableAssertions {
      * @param {string} obj.name The expected last name of the employee
      * @param {number} obj.employeeIndex 1-based index identifying the employee row in the table, 1 being the top one
      */
-    async employeeLastNameIsCorrect({ name, employeeIndex = 1 }: { name: string, employeeIndex?: number }) {
+    async employeeLastNameIsCorrect({ name, employeeIndex = 1 }: { name: string; employeeIndex?: number }) {
         const row = this.table.getRowByIndex(employeeIndex);
         await expect(row.lastName).toHaveText(name);
     }
@@ -104,7 +104,7 @@ class RecordsTableAssertions {
      * @param {number} obj.employeeId The expected ID of the employee
      * @param {number} obj.employeeIndex 1-based index identifying the employee row in the table, 1 being the top one
      */
-    async employeeIdIsCorrect({ employeeId, employeeIndex = 1 }: { employeeId: number, employeeIndex?: number }) {
+    async employeeIdIsCorrect({ employeeId, employeeIndex = 1 }: { employeeId: number; employeeIndex?: number }) {
         const row = this.table.getRowByIndex(employeeIndex);
         await expect(row.employeeId).toHaveText(employeeId.toString());
     }

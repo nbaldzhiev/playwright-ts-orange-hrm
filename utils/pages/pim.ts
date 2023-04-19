@@ -1,9 +1,8 @@
 /** This module contains a page object model for the PIM page */
-import { BasePage } from "./base-page";
-import { PimRecordsTable } from "./widgets/pim/pim-records-table";
-import { AddEmployeeForm } from "./widgets/pim/add-employee-form";
-import { Page, Locator, expect } from "@playwright/test";
-
+import { BasePage } from './base-page';
+import { PimRecordsTable } from './widgets/pim/pim-records-table';
+import { AddEmployeeForm } from './widgets/pim/add-employee-form';
+import { Page, Locator, expect } from '@playwright/test';
 
 /** This class defines an abstraction of the PIM page */
 export class PIMPage extends BasePage {
@@ -29,7 +28,7 @@ export class PIMPage extends BasePage {
      */
     async clickOnAddEmployeeBtn() {
         await this.recordsTable.addBtn.click();
-        await expect(this.recordsTable.addBtn).not.toBeVisible();
+        await expect(this.recordsTable.addBtn).toBeHidden();
     }
 
     /**
@@ -40,7 +39,7 @@ export class PIMPage extends BasePage {
         await this.employeeInfoIdInput.fill(employeeId.toString());
         await this.employeeInfoSearchBtn.click();
         await expect(this.loader).toBeVisible();
-        await expect(this.loader).not.toBeVisible();
+        await expect(this.loader).toBeHidden();
     }
 
     /**
@@ -48,11 +47,11 @@ export class PIMPage extends BasePage {
      * @param {number} employeeId The ID of the employee to be deleted
      */
     async deleteEmployeeAndAssertDeletion(employeeId: number) {
-      await this.filterEmployeesByEmployeeId(employeeId);
-      await this.recordsTable.assertThat.numberOfRowsIsCorrect(1);
-      await this.recordsTable.deleteRowByIndex(1);
-      await this.filterEmployeesByEmployeeId(employeeId);
-      await this.recordsTable.assertThat.numberOfRowsIsCorrect(0);
+        await this.filterEmployeesByEmployeeId(employeeId);
+        await this.recordsTable.assertThat.numberOfRowsIsCorrect(1);
+        await this.recordsTable.deleteRowByIndex(1);
+        await this.filterEmployeesByEmployeeId(employeeId);
+        await this.recordsTable.assertThat.numberOfRowsIsCorrect(0);
     }
 
     /**
@@ -71,5 +70,4 @@ class PIMPageAssertions {
     constructor(pimPage: PIMPage) {
         this.page = pimPage;
     }
-
 }

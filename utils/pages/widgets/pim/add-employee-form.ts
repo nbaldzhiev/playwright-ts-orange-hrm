@@ -1,12 +1,12 @@
 /** This module contains an abstraction of the Add Employee Form on the PIM page */
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator, expect } from '@playwright/test';
 
 type EmployeeData = {
-    firstName: string,
-    middleName: string,
-    lastName: string,
-    employeeId?: number,
-}
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    employeeId?: number;
+};
 
 /** This class defines an abstraction of the Add Employee Form on the PIM page */
 export class AddEmployeeForm {
@@ -65,7 +65,7 @@ export class AddEmployeeForm {
     /** Clicks on the Save button */
     async save() {
         await this.saveBtn.click();
-        await expect(this.firstName).not.toBeVisible();
+        await expect(this.firstName).toBeHidden();
     }
 
     /**
@@ -84,7 +84,7 @@ export class AddEmployeeForm {
             employeeId = parseInt(Date.now().toString().substring(1, 10));
         }
         await this.fillEmployeeId(employeeId);
-    
+
         await this.save();
     }
 }
