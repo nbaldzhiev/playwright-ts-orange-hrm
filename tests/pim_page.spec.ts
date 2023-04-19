@@ -3,6 +3,8 @@ import { expect, test } from './fixture-test';
 test.describe('PIM Page', () => {
 
   let createdEmployeeIds: number[] = [];
+  const userFirstName: string = 'dummy';
+  const userMiddleName: string = 'bot';
 
   test.beforeEach(async ({ authAppUI }) => {
     // Open the PIM page before each test
@@ -21,18 +23,21 @@ test.describe('PIM Page', () => {
 
   test('Should be able to add a new employee', async ({ authAppUI }) => {
     const employeeId: number = parseInt(Date.now().toString().substring(1, 10));
+    const userLastName: string = employeeId.toString();
 
     await authAppUI.pimPage.clickOnAddEmployeeBtn();
     await authAppUI.pimPage.addEmployeeForm.addNewEmployee(
-      { firstName: 'dummy', middleName: 'bot', lastName: 'user', employeeId: employeeId }
+      { firstName: userFirstName, middleName: userMiddleName, lastName: userLastName, employeeId: employeeId }
     )
     await expect(authAppUI.page).toHaveURL(/\/empNumber\/[0-9]+$/);
 
     await authAppUI.adminPage.sideMenu.openPIMPage();
     await authAppUI.pimPage.filterEmployeesByEmployeeId(employeeId);
     await authAppUI.pimPage.recordsTable.assertThat.numberOfRowsIsCorrect(1);
-    await authAppUI.pimPage.recordsTable.assertThat.employeeFirstMiddleNamesAreCorrect({ names: 'dummy bot' });
-    await authAppUI.pimPage.recordsTable.assertThat.employeeLastNameIsCorrect({ name: 'user' });
+    await authAppUI.pimPage.recordsTable.assertThat.employeeFirstMiddleNamesAreCorrect(
+      { names: `${userFirstName} ${userMiddleName}` }
+    );
+    await authAppUI.pimPage.recordsTable.assertThat.employeeLastNameIsCorrect({ name: userLastName });
     await authAppUI.pimPage.recordsTable.assertThat.employeeIdIsCorrect({ employeeId: employeeId });
 
     createdEmployeeIds.push(employeeId);
