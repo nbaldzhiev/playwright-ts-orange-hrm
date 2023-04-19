@@ -21,8 +21,8 @@ jobs:
       with:
         node-version: 16
     - run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+    - name: Install Playwright Chrome Browser
+      run: npx playwright install chrome
     - name: Run Playwright tests
       run: LOGIN_USERNAME=${{ secrets.LOGIN_USERNAME }} LOGIN_PASSWORD=${{ secrets.LOGIN_PASSWORD }} npx playwright test "${{ inputs.specs }}"
     - uses: actions/upload-artifact@v3
