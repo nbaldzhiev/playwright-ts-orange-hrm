@@ -27,7 +27,7 @@ jobs:
               run: LOGIN_USERNAME=${{ secrets.LOGIN_USERNAME }} LOGIN_PASSWORD=${{ secrets.LOGIN_PASSWORD }} npx playwright test ${{ inputs.specs }}
             - name: Upload report to S3 static website
               if: always()
-              run: npx tsc upload_report_to_s3.ts && ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY }} ${{ secrets.S3_BUCKET_NAME }} node upload_report_to_s3.js
+              run: npx tsc upload_report_to_s3.ts && AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} node upload_report_to_s3.js
             - uses: actions/upload-artifact@v3
               if: always()
               with:
