@@ -1,6 +1,6 @@
-# (WIP) TypeScript+Playwright UI Tests Of Demo App
+# TypeScript+Playwright UI Tests Of Demo App
 
-A repository containing a Playwright (TypeScript) project with UI tests for a demo application - https://opensource-demo.orangehrmlive.com/. The goal of the repository is to play around and explore Playwright with TypeScript. The goal of this project **is not** to provide an extensive automated test plan of the app.
+A repository containing a Playwright (TypeScript) project with UI tests (POM-based) for a demo application - https://opensource-demo.orangehrmlive.com/. The goal of the repository is to play around and explore Playwright with TypeScript. The goal of this project **is not** to provide an extensive automated test plan of the app.
 
 > **_NOTE:_** Tests don't run in parallel and use only 1 worker because the demo app ends up returning 503 errors when being accessed multiple times simultaneously. That's something I wasn't aware of when I was deciding on a demo app to automage against, but that is okay considering the goals of this project.
 

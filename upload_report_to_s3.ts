@@ -20,6 +20,9 @@ const uploadCallback = (err: any, data: any) => {
 
 const rootDir = new Date().toISOString() + '/';
 
+// TODO: Improve the uploading of the report directory, such as by making it recursive, as now it's implemented in a
+// pretty dummy way, knowing the structure in advance.
+
 // Upload the main directory
 s3.upload({ Bucket: bucketName, Body: '', Key: rootDir }, uploadCallback);
 
