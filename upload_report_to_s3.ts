@@ -78,4 +78,4 @@ fs.readdirSync(reportDir + 'trace/assets').forEach((file) => {
     );
 });
 
-console.log(`>>>> S3 Report URL: ${websiteUrl} + ${rootDir} <<<<`);
+console.log(`>>>>>>>> S3 Report URL: ${websiteUrl}${rootDir} <<<<<<<<`);
