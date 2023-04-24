@@ -1,3 +1,7 @@
+/** This file uploads the Playwright HTML report to a S3 bucket with static website enabled and sends a Slack message
+ * to a given workspace/channel with the link to the HTML report attached to the message.
+ */
+
 import * as AWS from 'aws-sdk';
 import * as SlackWebApi from '@slack/web-api';
 import * as fs from 'fs';
@@ -142,8 +146,8 @@ function parsePlaywrightOutput(filename: string) {
 
 /**
  * Constucts the Slack message to send to the results channels
- * @param {String} parsedResults The parsed results of the Cypress output. The value of this parameter is expected to
- * be the return value of function parseCypressOutput.
+ * @param {string} parsedResults The parsed results of the Cypress output. The value of this parameter is expected to
+ * be the return value of function parsePlaywrightOutput.
  */
 function constructSlackMessage(parsedResults: parsedResults) {
     let slackMessage = '---------- *TEST RESULTS* ----------\n';
@@ -175,19 +179,20 @@ function constructSlackMessage(parsedResults: parsedResults) {
     if (parsedResults.passed) {
         slackMessage += `\nTests elapsed time: *${parsedResults.duration}*.\n`;
     }
-    slackMessage += `<${ghActionsRunUrl}|Run URL (ID: ${ghActionsRunID})>\n`;
     slackMessage += `<${s3Url}|HTML Report>`;
+    slackMessage += `<${ghActionsRunUrl}|Run URL (ID: ${ghActionsRunID})>\n`;
 
     return slackMessage;
 }
 
 /**
  * Posts the Slack message with the formatted content to the corresponding slack channels
- * @param {String} slackMessage The formatted slack message to send. The value of this parameter is expected to
+ * @param {object} obj
+ * @param {string} obj.slackMessage The formatted slack message to send. The value of this parameter is expected to
  * be the return value of function constructSlackMessage.
- * @param {String} slackBotToken The token of the Slack bot app which would send the message
- * @param {String} slackChannel The name of the Slack channel, which contains all test results
- * @param {String} slackFailuresChannel The name of the Slack channel, which contains only test results with failures
+ * @param {string} obj.slackBotToken The token of the Slack bot app which would send the message
+ * @param {string} obj.slackChannel The name of the Slack channel, which contains all test results
+ * @param {string} obj.slackFailuresChannel The name of the Slack channel, which contains only test results with failures
  */
 function postMessage({
     slackMessage,
