@@ -11,6 +11,12 @@ on:
                 type: string
                 description: Which specs to run, e.g. login-page.spec.ts pim-page.spec.ts
 
+env:
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  SLACK_CHANNEL_NAME_ALL: ${{ secrets.SLACK_CHANNEL_NAME_ALL }}
+  SLACK_CHANNEL_NAME_FAILS: ${{ secrets.SLACK_CHANNEL_NAME_FAILS }}
+  SLACK_QA_GROUP_ID: ${{ secrets.SLACK_QA_GROUP_ID }}
+
 jobs:
     test:
         timeout-minutes: 60
@@ -24,7 +30,7 @@ jobs:
             - name: Install Playwright Chrome Browser
               run: npx playwright install chrome
             - name: Run Playwright tests
-              run: LOGIN_USERNAME=${{ secrets.LOGIN_USERNAME }} LOGIN_PASSWORD=${{ secrets.LOGIN_PASSWORD }} npx playwright test ${{ inputs.specs }}
-            - name: Upload report to S3 static website
+              run: LOGIN_USERNAME=${{ secrets.LOGIN_USERNAME }} LOGIN_PASSWORD=${{ secrets.LOGIN_PASSWORD }} npx playwright test ${{ inputs.specs }} | tee playwrightOutput.txt
+            - name: Upload report to S3 static website and Notify Slack
               if: always()
-              run: npx tsc upload_report_to_s3.ts && AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} node upload_report_to_s3.js
+              run: npx tsc s3_upload_slack_notify.ts && AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} node s3_upload_slack_notify.js playwrightOutput.txt
