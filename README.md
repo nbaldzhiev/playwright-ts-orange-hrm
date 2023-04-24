@@ -34,10 +34,8 @@ Two workflows are present:
 * [run-all-test-specs.yml](https://github.com/nbaldzhiev/playwright-ts-orange-hrm/blob/main/.github/workflows/run-all-test-specs.yml) - Runs all test specs upon manual trigger (`workflow_dispatch`);
 * [run-test-specs.yml](https://github.com/nbaldzhiev/playwright-ts-orange-hrm/blob/main/.github/workflows/run-test-specs.yml) - Runs specific test specs depending on a workflow input provided by the user upon manual trigger (`workflow_dispatch)`.
 
-#### S3 Bucket Static Website and Playwright HTML Report
+#### Slack Notification + Playwright HTML report on a S3 Bucket Static Website
 
-Both workflows upload the HTML Playwright Report to a S3 bucket with enabled static website hosting. The URL of the report can be found in the output of the `Upload report to S3 static website` step of each workflow, i.e.:
+Both workflows use the `s3_upload_slack_notify.ts` script to send a Slack message with the test results, including a HTML Playwright Report uploaded to a S3 bucket with enabled static website hosting. The URL of the HTML report is attached to the Slack message so that the user can easily navigate to it and see the report. The default Playwright reporter `html` is used.
 
-    >>>>>>>> S3 Report URL: http://***.s3-website.eu-central-1.amazonaws.com/2023-04-21T08:03:00.281Z/ <<<<<<<<
-
-The idea is to attach this link to a Slack/<other chat app> message, which contains the test results of a given tests run. In this way, people can see the results in the chat app and open the HTML report from the message as well without having to go to the run in the CI app at all.
+![Slack message with a ](https://i.snipboard.io/pFXUEZ.jpg)
