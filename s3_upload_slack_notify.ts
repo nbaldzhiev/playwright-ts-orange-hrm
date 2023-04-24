@@ -174,7 +174,7 @@ function constructSlackMessage(parsedResults: parsedResults) {
     if (parsedResults.passed) {
         slackMessage += `\nTests elapsed time: *${parsedResults.duration}*.\n`;
     }
-    slackMessage += `<${ghActionsRunUrl}|Run URL (ID: ${ghActionsRunID})>`;
+    slackMessage += `<${ghActionsRunUrl}|Run URL (ID: ${ghActionsRunID})>\n`;
     slackMessage += `<${s3Url}|HTML Report>`;
 
     return slackMessage;
