@@ -6,6 +6,13 @@ on:
     #   - cron: '* 20 * * *'
     workflow_dispatch:
 
+env:
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  SLACK_CHANNEL_NAME_ALL: ${{ secrets.SLACK_CHANNEL_NAME_ALL }}
+  SLACK_CHANNEL_NAME_FAILS: ${{ secrets.SLACK_CHANNEL_NAME_FAILS }}
+  SLACK_QA_GROUP_ID: ${{ secrets.SLACK_QA_GROUP_ID }}
+  ORG_NAME: ${{ secrets.ORG_NAME }}
+
 jobs:
     test:
         timeout-minutes: 60

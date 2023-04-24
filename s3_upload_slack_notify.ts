@@ -87,9 +87,10 @@ console.log(`>>>>>>>> S3 Report URL: ${websiteUrl}${rootDir} <<<<<<<<`);
 
 // Notify slack
 const s3Url = `${websiteUrl}${rootDir}`;
+const orgName = process.env.ORG_NAME;
 const repoName = 'playwright-ts-orange-hrm';
 const ghActionsRunID = process.env.GITHUB_RUN_ID;
-const ghActionsRunUrl = `https://github.com/${repoName}/actions/runs/${ghActionsRunID}`;
+const ghActionsRunUrl = `https://github.com/${orgName}/${repoName}/actions/runs/${ghActionsRunID}`;
 const qaSlackGroupId = process.env.SLACK_QA_GROUP_ID;
 const slackBotToken = process.env.SLACK_BOT_TOKEN!;
 const slackChannelNameAll = process.env.SLACK_CHANNEL_NAME_ALL!;
