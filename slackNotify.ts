@@ -12,15 +12,10 @@ const s3Url = process.argv[3];
 const repoName = 'playwright-ts-orange-hrm';
 const ghActionsRunID = process.env.GITHUB_RUN_ID;
 const ghActionsRunUrl = `https://github.com/${repoName}/actions/runs/${ghActionsRunID}`;
-// The below variables are expected to be set within the CI provider
-// const qaSlackGroupId = process.env.SLACK_QA_GROUP_ID;
-const qaSlackGroupId = 'U054D2MFTJA';
-// const slackBotToken = process.env.SLACK_BOT_TOKEN;
-const slackBotToken = 'xoxb-5168322665409-5155780925522-7LRQqKlt765stSABpr4ugGr8';
-// const slackChannelNameAll = process.env.SLACK_CHANNEL_NAME_ALL;
-const slackChannelNameAll = 'test-results';
-// const slackChannelNameFails = process.env.SLACK_CHANNEL_NAME_FAILS;
-const slackChannelNameFails = 'test-results-fails';
+const qaSlackGroupId = process.env.SLACK_QA_GROUP_ID;
+const slackBotToken = process.env.SLACK_BOT_TOKEN!;
+const slackChannelNameAll = process.env.SLACK_CHANNEL_NAME_ALL!;
+const slackChannelNameFails = process.env.SLACK_CHANNEL_NAME_FAILS!;
 
 type parsedResults = {
     passed: number;
@@ -37,8 +32,8 @@ type parsedResults = {
 function parsePlaywrightOutput(filename: string) {
     const playwrightOutput_ = fs.readFileSync(filename, 'utf8');
     // https://github.com/microsoft/playwright/issues/20400
-    // eslint-disable-next-line
     const ansiRegex = new RegExp(
+        // eslint-disable-next-line
         '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))',
         'g',
     );
@@ -101,7 +96,8 @@ function constructSlackMessage(parsedResults: parsedResults) {
     if (parsedResults.passed) {
         slackMessage += `\nTests elapsed time: *${parsedResults.duration}*.\n`;
     }
-    //slackMessage += `<${ghActionsRunUrl}|Run URL (ID: ${ghActionsRunID})>`;
+    slackMessage += `<${ghActionsRunUrl}|Run URL (ID: ${ghActionsRunID})>`;
+    slackMessage += `<${s3Url}|HTML Report>`;
 
     return slackMessage;
 }
