@@ -19,7 +19,7 @@ static code checks upon making a `git commit`.
 
 ## Running tests
 
-You can run the tests either locally or via GitHub Actions.
+You can run the tests either locally or via GitHub Actions. The run using 1 worker and against Chromium, Firefox and Webkit (Desktop Safari).
 
 ### Locally
 
